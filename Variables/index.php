@@ -50,6 +50,6 @@
     <h1><?php echo TEMA ?></h1>
     <p>Hola, soy  <?php echo $Nombre ?>!</p>
     <p>Tengo <?php echo $Edad ?> años.</p>
-    <p>Mido alrededor de <?php echo $Edad ?>m</p>
+    <p>Mido alrededor de <?php echo $Altura ?>m</p>
 </body>
 </html>
