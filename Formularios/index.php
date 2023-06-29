@@ -22,7 +22,7 @@
         $Comprobacion = login($username, $password);
 
         if($Comprobacion){
-            header('Location: welcome.php');
+            header('Location: Welcome/');
             exit;
         }else{
             $Error= "Usuario o Contraseña incorrecta.";
