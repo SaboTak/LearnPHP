@@ -11,7 +11,11 @@
     require_once 'Models-1/Carro.php';
     require_once 'Models-2/Carro.php';
 
-    $carro1 = new Models1\Carro("SANDA-2006","2023",4,"amarillo",false);
+    // Rompemos el conflicto de forma general en el archivo para no estar especificando cada vez
+    use Models1\Carro as Carro1;
+    use Models2\Carro as Carro2;
+
+    $carro1 = new Carro1("SANDA-2006","2023",4,"amarillo",false);
 
 
 ?>
