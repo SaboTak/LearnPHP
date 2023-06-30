@@ -7,8 +7,11 @@
     $carro1->setRuedas(4);
     $carro1->setColor("amarillo");
     $carro1->setUsado(false);
+3. Si queremos que una clase no se herede, agregamos la palabra reserveda "final" al inicio de la instancia de la clase.
+   Tambien se puede aplicar a un metodo especifico de la funcion para que solamente esa funcion no pueda ser heredada.
  -->
 
+ 
  <?php
     // Declarar una Constante
     define('TEMA', 'Objetos');
