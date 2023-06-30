@@ -1,4 +1,4 @@
-<!-- Notas Logica Objetos FluentInterface PHP -->
+<!-- Notas Logica Objetos Atributos con Nombre PHP -->
 <!-- Important:  Notas
 1. Al retornar los objetos en los metodos, podemos concatenar acciones de forma mas limpia.
  -->
@@ -6,19 +6,18 @@
  
  <?php
     // Declarar una Constante
-    define('TEMA', 'FluentInterface');
+    define('TEMA', 'AtributosNombres');
 
     // Inluimos la clase Carro
     require_once 'Models/Carro.php';
 
-    $carro1 = new Carro("SANDA-2006","2023",4,"amarillo",false);
+    $carro1 = new Carro(Placa :"SANDA-2006",Modelo:"2023",Ruedas:4,Color:"amarillo",Usado:false);
     // Uso del Fluent Interface
     $carro1 -> setColor("Negro")
             -> setModelo("2021")
             -> setPlaca("YYY-999")
             -> setRuedas("6")
             -> setUsado(true);
-
 
 ?>
 
