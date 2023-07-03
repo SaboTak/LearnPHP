@@ -14,5 +14,9 @@
         echo 'Hola mundo desde aboutus';
     });
 
+    Route::get('/Course/:slug',function($slug){
+        echo 'Hola mundo el curso es: ' . $slug;
+    });
+
     Route::dispatch();
 ?>
