@@ -2,20 +2,20 @@
 
     use Lib\Route;
 
-    Route::get('/',function(){
-        echo 'Hola mundo';
-    });
+    use App\Controllers\HomeController;
+
+    Route::get('/',[HomeController::class, 'index']);
 
     Route::get('/Contact',function(){
-        echo 'Hola mundo desde contact';
+        return 'Hola mundo desde contact';
     });
 
     Route::get('/AboutUs',function(){
-        echo 'Hola mundo desde aboutus';
+        return 'Hola mundo desde aboutus';
     });
 
     Route::get('/Course/:slug',function($slug){
-        echo 'Hola mundo el curso es: ' . $slug;
+        return 'Hola mundo el curso es: ' . $slug;
     });
 
     Route::dispatch();
