@@ -55,6 +55,34 @@ class Model{
         $this->query($sql); 
         return $this;
     }
+
+    public function Create($data){
+        $columns= array_keys($data);
+        $columns= implode(',',$columns);
+        $values=array_values($data);
+        $values= "'" . implode("','",$values) . "'";
+        $sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$values})";
+        $this->query($sql);
+
+        $InsertId = $this->Connection->insert_id;
+        return $this->FindById($InsertId);
+    }
+
+    public function Update($id, $data){
+        $fields = [];
+        foreach ($data as $key => $value) {
+            $fields[]= "{$key} = '{$value}'";
+        }
+        $fields = implode(',',$fields);
+        $sql = "UPDATE {$this->table} SET ({$fields}) WHERE id= {$id}";
+        $this->query($sql);
+        return $this->FindById($id);
+    }
+
+    public function Delete($id){
+        $sql="DELETE FROM {$this->table} WHERE id = {$id}";
+        $this->query($sql);
+    }
     
 }
 ?>
