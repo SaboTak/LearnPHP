@@ -26,8 +26,18 @@ class Model{
         }
     }
 
-    public function query($sql){
-        $this->Query =  $this->Connection->query($sql);
+    public function query($sql, $data = [], $params = null){
+        if($data){
+            if($params == null){
+                $params = str_repeat('s',count($data));
+            }
+            $stm = $this->Connection->prepare($sql);
+            $stm->bind_param($params, ...$data);
+            $stm->execute();
+            $this->Query = $stm->get_result();
+        }else{
+            $this->Query = $this->Connection->query($sql);
+        }
         return $this;
     }
 
@@ -46,13 +56,18 @@ class Model{
     }
 
     public function FindById($Id){
-        $sql = "SELECT * FROM {$this->table} WHERE id={$Id}";
-        return $this->query($sql)->firts(); 
+        $sql = "SELECT * FROM {$this->table} WHERE id= ?";
+        return $this->query($sql,[$Id],'i')->firts(); 
     }
 
     public function Where($Column, $Operator , $Value){
-        $sql = "SELECT * FROM {$this->table} WHERE {$Column} {$Operator} '{$Value}' ";
-        $this->query($sql); 
+        if($Value == null){
+            $Value = $Operator;
+            $Operator = '=';
+        }
+        $Value = $this->Connection->real_escape_string($Value);
+        $sql = "SELECT * FROM {$this->table} WHERE {$Column} {$Operator} ? ";
+        $this->query($sql,[$Value]);
         return $this;
     }
 
@@ -60,10 +75,8 @@ class Model{
         $columns= array_keys($data);
         $columns= implode(',',$columns);
         $values=array_values($data);
-        $values= "'" . implode("','",$values) . "'";
-        $sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$values})";
-        $this->query($sql);
-
+        $sql = "INSERT INTO {$this->table} ({$columns}) VALUES (" . str_repeat('?, ', count($values) -1) . "?)";
+        $this->query($sql, $values);
         $InsertId = $this->Connection->insert_id;
         return $this->FindById($InsertId);
     }
@@ -71,17 +84,19 @@ class Model{
     public function Update($id, $data){
         $fields = [];
         foreach ($data as $key => $value) {
-            $fields[]= "{$key} = '{$value}'";
+            $fields[]= "{$key} = ?";
         }
         $fields = implode(',',$fields);
-        $sql = "UPDATE {$this->table} SET ({$fields}) WHERE id= {$id}";
-        $this->query($sql);
+        $sql = "UPDATE {$this->table} SET ({$fields}) WHERE id= ?";
+        $values = array_values($data);
+        $values[] = $id;
+        $this->query($sql,$values);
         return $this->FindById($id);
     }
 
     public function Delete($id){
-        $sql="DELETE FROM {$this->table} WHERE id = {$id}";
-        $this->query($sql);
+        $sql="DELETE FROM {$this->table} WHERE id = ?";
+        $this->query($sql,[$id], 'i');
     }
     
 }
